@@ -32,18 +32,3 @@
 
 ![WebDriverIO and JavaScript Test Report Expanded View](./assets/Allure-Report-Detailed-View.png?raw=true "WebDriverIO and JavaScript Test Report Expanded View")
 
-### How to run Test on SauceLabs
-* SauceLabs Quickstart `https://docs.saucelabs.com/web-apps/automated-testing/playwright/quickstart/`
-    * Set Environment Variables:
-        * Open Terminal
-        * Run ```touch ~/.bash_profile; open ~/.bash_profile```
-        * In TextEdit, add
-        * `export SAUCE_USERNAME=“YOUR USERNAME”`
-        * `export SAUCE_ACCESS_KEY="YOUR ACCESS KEY"`
-        * Save the .bash_profile file and Quit (Command + Q) Text Edit.
-        * In Terminal echo $SAUCE_USERNAME
-        * In Terminal echo $SAUCE_ACCESS_KEY
-* Configure ```https://docs.saucelabs.com/secure-connections/sauce-connect/setup-configuration/basic-setup/```
-    * Open Terminal
-    * Run ```cd sc-4.8.0-osx/bin```
-    * Again run tests: ```./sc -u YourUsername -k YourAccessKey --region us-west --tunnel-name YourTunnelName```
