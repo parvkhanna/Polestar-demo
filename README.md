@@ -38,3 +38,5 @@
 ![WebDriverIO and JavaScript Test Report](./assets/Allure-Report1.png?raw=true "WebDriverIO and JavaScript Test Report")
 
 ![WebDriverIO and JavaScript Test Report Expanded View](./assets/Allure-Report-Detailed-View.png?raw=true "WebDriverIO and JavaScript Test Report Expanded View")
+
+![WebDriverIO and JavaScript Test Report Expanded View](./assets/API-TestReport.png?raw=true "WebDriverIO and JavaScript Test Report Expanded View")

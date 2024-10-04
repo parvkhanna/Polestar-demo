@@ -40,7 +40,7 @@
         "wdio": "npm run clean && wdio run wdio.conf.js",
         "saucelabs": "npm run clean && wdio run saucelabs.conf.js",
         "wdio:api": "npm run clean && mocha --recursive api-tests/*.js --reporter mochawesome",
-        "allure": "allure generate ./allure-results && allure open"
+        "allure": "allure generate allure-results && allure open"
     },
     "dependencies": {
         "uuid": "^10.0.0"
