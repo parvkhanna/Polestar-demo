@@ -66,7 +66,7 @@ exports.config = {
       browserName: "chrome",
       "goog:chromeOptions": {
         prefs: { "inil.accept_languages": "en" },
-        args: ["--lang=en"],
+        args: ["--lang=en", "--headless = new", "--start-maximized"],
       },
     },
     // {
@@ -96,7 +96,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: "debug",
+  logLevel: "silent",
   //
   // Set specific log levels per logger
   // loggers:
@@ -107,10 +107,10 @@ exports.config = {
   // - @wdio/sumologic-reporter
   // - @wdio/cli, @wdio/config, @wdio/utils
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  // logLevels: {
-  //     webdriver: 'info',
-  //     '@wdio/appium-service': 'info'
-  // },
+  logLevels: {
+    webdriver: "silent",
+    "@wdio/mocha-framework": "info",
+  },
   //
   // If you only want to run your tests until a specific amount of tests have failed use
   // bail (default is 0 - don't bail, run all tests).
@@ -140,6 +140,12 @@ exports.config = {
 
   services: [
     "chromedriver",
+    // ["allure",
+    // {
+    //   outputDir: "allure-results",
+    //   disableWebdriverStepsReporting: false,
+    //   disableWebdriverScreenshotsReporting: false,
+    // }],
     // 'safaridriver',
     // 'geckodriver',
     // 'edgedriver',
@@ -162,17 +168,13 @@ exports.config = {
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
   // reporters: ['spec'],
-  reporters: [
-    "spec",
-    [
-      "allure",
-      {
+  reporters: ["spec",
+    [ "allure",{
         outputDir: "allure-results",
-        disableWebdriverStepsReporting: true,
+        disableWebdriverStepsReporting: false,
         disableWebdriverScreenshotsReporting: true,
         // addConsoleLogs: true,
-      },
-    ],
+      }]
   ],
 
   //
