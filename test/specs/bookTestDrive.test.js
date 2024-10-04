@@ -18,17 +18,18 @@ describe("Validate Test Drive Booking ", async function () {
     await browser.closeWindow();
     allure.startStep("Delete Session");
     await browser.deleteSession();
+    allure.endStep();
   });
 
   it("Validate the home page should have correct page title", async () => {
     allure.startStep("Verify the page title");
     await HomePage.validatePageTitle("Polestar – Elbilar | Polestar Sverige");
+    allure.endStep();
   });
 
   it("Should be able to book a test drive", async () => {
     allure.startStep("User is able to select the model for test drive");
     await SpecPage.bookTestDrive("Polestar 4");
-
     allure.endStep();
   });
 });
