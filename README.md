@@ -31,8 +31,8 @@
 
 ### How to view HTML report
 
-- Go to Project root directory: `./allure-results/index.html`
-
+- For UI : After running the tests run : `npm allure`
+- For API : After running the tests run : `go to ./mochawesome-report/mochawesome.html`
 ### Sample Test Results
 
 ![WebDriverIO and JavaScript Test Report](./assets/Allure-Report1.png?raw=true "WebDriverIO and JavaScript Test Report")
