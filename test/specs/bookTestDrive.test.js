@@ -1,4 +1,4 @@
-const { assert } = require("chai");
+import { assert } from "chai";
 import allure from "@wdio/allure-reporter";
 import SpecPage from "../pageobjects/specification.page";
 import HomePage from "../pageobjects/home.page";
