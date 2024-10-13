@@ -13,13 +13,13 @@ describe("Validate Test Drive Booking ", async function () {
     allure.startStep("Handle cookies");
     await HomePage.handleCookie();
   });
-  after("Tear down", async () => {
-    allure.startStep("Close browser");
-    await browser.closeWindow();
-    allure.startStep("Delete Session");
-    await browser.deleteSession();
-    allure.endStep();
-  });
+  // after("Tear down", async () => {
+  //   allure.startStep("Close browser");
+  //   await browser.closeWindow();
+  //   // allure.startStep("Delete Session");
+  //   // await browser.deleteSession();
+  //   allure.endStep();
+  // });
 
   it("Validate the home page should have correct page title", async () => {
     allure.startStep("Verify the page title");

@@ -51,43 +51,52 @@ exports.config = {
   // and 30 processes will get spawned. The property handles how many capabilities
   // from the same test should run tests.
   //
-  maxInstances: 1,
+  maxInstances: 3,
   //
   // If you have trouble getting all important capabilities together, check out the
   // Sauce Labs platform configurator - a great tool to configure your capabilities:
   // https://saucelabs.com/platform/platform-configurator
   //
   capabilities: [
-    // {
-    //     acceptInsecureCerts: true
-    // },
+    // Chrome Configuration
     {
-      maxInstances: 5,
+      maxInstances: 5, // Define how many Chrome instances can run in parallel
       browserName: "chrome",
+      acceptInsecureCerts: true, // Good practice if testing sites with self-signed certificates
       "goog:chromeOptions": {
-        prefs: { "inil.accept_languages": "en" },
-        args: ["--lang=en", "--headless = new", "--start-maximized"],
+        args: [
+          "--start-maximized", // Opens browser in maximized mode
+          "--disable-infobars", // Disables pop-up blocking info bars
+          "--disable-gpu", // Good practice for running in CI
+          "--disable-extensions", // Disables all extensions
+          "--no-sandbox", // Disables sandboxing for faster performance (good for CI)
+          "--disable-dev-shm-usage", // Prevents resource issues in Docker/CI
+        ],
       },
     },
-    // {
-    /*
-            * safaridriver can only handle 1 instance unfortunately
-            * https://developer.apple.com/documentation/webkit/about_webdriver_for_safari
-           
-            maxInstances: 1,
-            browserName: 'safari',
-            port: 4444,
-            acceptInsecureCerts: true
-             */
-    // },
-    // {
-    //     browserName: 'firefox',
-    //     port: 4446
-    // },
-    // {
-    //     browserName: 'MicrosoftEdge',
-    //     port: 17556
-    // },
+
+    // // Firefox Configuration
+    {
+      maxInstances: 5, // Define how many Firefox instances can run in parallel
+      browserName: "firefox",
+      acceptInsecureCerts: true, // For self-signed certificates
+      "moz:firefoxOptions": {
+        args: [
+          // "--width=1920",
+          // "--height=1080", // Maximized window
+          "--disable-infobars", // Disables pop-up blocking info bars
+        ],
+      },
+    },
+
+    // Safari Configuration
+    {
+      maxInstances: 1, // Safari typically has less concurrency support
+      browserName: "safari",
+      platformName: "macOS", // Ensures it's correctly identified as Safari on macOS
+      acceptInsecureCerts: true, // For self-signed certificates
+      // Safari doesn’t support CLI options for maximization, so we handle this in the test lifecycle
+    },
   ],
   //
   // ===================
@@ -96,7 +105,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: "silent",
+  logLevel: "info",
   //
   // Set specific log levels per logger
   // loggers:
@@ -108,7 +117,7 @@ exports.config = {
   // - @wdio/cli, @wdio/config, @wdio/utils
   // Level of logging verbosity: trace | debug | info | warn | error | silent
   logLevels: {
-    webdriver: "silent",
+    webdriver: "trace",
     "@wdio/mocha-framework": "info",
   },
   //
@@ -139,17 +148,40 @@ exports.config = {
   // commands. Instead, they hook themselves up into the test process.
 
   services: [
-    "chromedriver",
-    // ["allure",
-    // {
-    //   outputDir: "allure-results",
-    //   disableWebdriverStepsReporting: false,
-    //   disableWebdriverScreenshotsReporting: false,
-    // }],
-    // 'safaridriver',
-    // 'geckodriver',
-    // 'edgedriver',
-    // 'vscode'
+    [
+      "chromedriver",
+      {
+        // The path where the output of the Chromedriver server should be stored
+        outputDir: "./logs", // Specify your desired output directory
+        logLevel: "info",
+        args: ["--no-sandbox", "headless"], // Add options as needed
+      },
+    ],
+    [
+      "geckodriver",
+      {
+        // The path where the output of the Geckodriver server should
+        outputDir: "./logs",
+
+        // pass in custom options for Geckodriver, for more information see
+        // https://github.com/webdriverio-community/node-geckodriver#options
+        geckodriverOptions: {
+          log: "info", // set log level of driver
+        },
+      },
+    ],
+    [
+      "safaridriver",
+      {
+        // This path is where you want the logs to be saved
+        outputDir: "./logs",
+
+        // Enable verbose logging
+        safaridriverOptions: {
+          log: "info", // Possible values: fatal, error, warn, info, debug
+        },
+      },
+    ],
   ],
 
   // Framework you want to run your specs with.
@@ -167,14 +199,17 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  // reporters: ['spec'],
-  reporters: ["spec",
-    [ "allure",{
+  reporters: [
+    "spec",
+    [
+      "allure",
+      {
         outputDir: "allure-results",
         disableWebdriverStepsReporting: false,
         disableWebdriverScreenshotsReporting: true,
-        // addConsoleLogs: true,
-      }]
+        addConsoleLogs: true,
+      },
+    ],
   ],
 
   //
@@ -236,8 +271,11 @@ exports.config = {
    * @param {Array.<String>} specs        List of spec file paths that are to be run
    * @param {Object}         browser      instance of created browser/device session
    */
-  // before: function (capabilities, specs) {
-  // },
+  // Hooks to manage session state
+  before: async function (capabilities, specs) {
+    console.log(`Starting tests in: ${capabilities.browserName}`);
+    // await browser.reloadSession();
+  },
   /**
    * Runs before a WebdriverIO command gets executed.
    * @param {String} commandName hook command name
@@ -312,8 +350,19 @@ exports.config = {
    * @param {Array.<Object>} capabilities list of capabilities details
    * @param {Array.<String>} specs List of spec file paths that ran
    */
-  // afterSession: function (config, capabilities, specs) {
-  // },
+  afterSession: async function (config, capabilities, specs) {
+    try {
+      // Close the browser if it's still open
+      if (browser.isOpen) {
+        await browser.deleteSession(); // Deletes the session
+        console.log("Browser session closed successfully.");
+      } else {
+        console.log("Browser was not open.");
+      }
+    } catch (error) {
+      console.error("Error closing the browser session:", error);
+    }
+  },
   /**
    * Gets executed after all workers got shut down and the process is about to exit. An error
    * thrown in the onComplete hook will result in the test run failing.
