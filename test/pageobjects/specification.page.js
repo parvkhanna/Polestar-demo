@@ -53,7 +53,7 @@ class SpecPage extends Page {
     await this.modelId.click();
     await this.detailsTab.waitForDisplayed();
     await this.btnContinue.scrollIntoView();
-    await browser.pause(9000);
+    await browser.pause(6000);
     await this.btnContinue.scrollIntoView();
     await this.btnContinue.waitForClickable();
     await this.btnContinue.click();

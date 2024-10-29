@@ -90,13 +90,13 @@ exports.config = {
     },
 
     // Safari Configuration
-    {
-      maxInstances: 1, // Safari typically has less concurrency support
-      browserName: "safari",
-      platformName: "macOS", // Ensures it's correctly identified as Safari on macOS
-      acceptInsecureCerts: true, // For self-signed certificates
-      // Safari doesn’t support CLI options for maximization, so we handle this in the test lifecycle
-    },
+    // {
+    //   maxInstances: 1, // Safari typically has less concurrency support
+    //   browserName: "safari",
+    //   platformName: "macOS", // Ensures it's correctly identified as Safari on macOS
+    //   acceptInsecureCerts: true, // For self-signed certificates
+    //   // Safari doesn’t support CLI options for maximization, so we handle this in the test lifecycle
+    // },
   ],
   //
   // ===================
