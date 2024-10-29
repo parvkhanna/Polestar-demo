@@ -53,7 +53,9 @@ class SpecPage extends Page {
     await this.modelId.click();
     await this.detailsTab.waitForDisplayed();
     await this.btnContinue.scrollIntoView();
-    await this.btnContinue.waitForClickable({ timeout: 10000 });
+    await browser.pause(6000);
+    await this.btnContinue.scrollIntoView();
+    await this.btnContinue.waitForClickable();
     await this.btnContinue.click();
     await BookingDataPage.enterDetails();
   }
