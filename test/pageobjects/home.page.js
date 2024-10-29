@@ -34,7 +34,7 @@ class HomePage extends Page {
     await this.rejectCookiebtn.click();
   }
 
-  open() {
+  async open() {
     return super.open("se");
   }
 }

@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import Page from "./page";
 import HomePage from "./home.page";
-import bookingDataPage from "../pageobjects/bookingData.page";
+import BookingDataPage from "../pageobjects/bookingData.page";
 
 class SpecPage extends Page {
   get modeldd() {
@@ -43,7 +43,7 @@ class SpecPage extends Page {
    * a method to encapsule automation code to interact with the page
    */
   async bookTestDrive(expectedModel) {
-    await HomePage.discoverButton.waitForDisplayed();
+    await HomePage.discoverButton.waitForClickable();
     await HomePage.bookYourTestDriveButton.click();
     await this.modeldd.waitForDisplayed();
     await this.modeldd.click();
@@ -53,9 +53,9 @@ class SpecPage extends Page {
     await this.modelId.click();
     await this.detailsTab.waitForDisplayed();
     await this.btnContinue.scrollIntoView();
-    await this.btnContinue.waitForEnabled({ timeout: 10000 });
+    await this.btnContinue.waitForClickable({ timeout: 10000 });
     await this.btnContinue.click();
-    await bookingDataPage.enterDetails();
+    await BookingDataPage.enterDetails();
   }
 }
 

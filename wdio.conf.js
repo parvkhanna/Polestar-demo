@@ -75,7 +75,7 @@ exports.config = {
       },
     },
 
-    // // Firefox Configuration
+    // Firefox Configuration
     {
       maxInstances: 5, // Define how many Firefox instances can run in parallel
       browserName: "firefox",
@@ -148,40 +148,41 @@ exports.config = {
   // commands. Instead, they hook themselves up into the test process.
 
   services: [
-    [
-      "chromedriver",
-      {
-        // The path where the output of the Chromedriver server should be stored
-        outputDir: "./logs", // Specify your desired output directory
-        logLevel: "info",
-        args: ["--no-sandbox", "headless"], // Add options as needed
-      },
-    ],
-    [
-      "geckodriver",
-      {
-        // The path where the output of the Geckodriver server should
-        outputDir: "./logs",
+    ['Selenium-standalone'],
+    // [
+    //   "chromedriver",
+    //   {
+    //     // The path where the output of the Chromedriver server should be stored
+    //     outputDir: "./logs", // Specify your desired output directory
+    //     logLevel: "info",
+    //     args: ["--no-sandbox", "headless"], // Add options as needed
+    //   },
+    // ],
+    // [
+    //   "geckodriver",
+    //   {
+    //     // The path where the output of the Geckodriver server should
+    //     outputDir: "./logs",
 
-        // pass in custom options for Geckodriver, for more information see
-        // https://github.com/webdriverio-community/node-geckodriver#options
-        geckodriverOptions: {
-          log: "info", // set log level of driver
-        },
-      },
-    ],
-    [
-      "safaridriver",
-      {
-        // This path is where you want the logs to be saved
-        outputDir: "./logs",
+    //     // pass in custom options for Geckodriver, for more information see
+    //     // https://github.com/webdriverio-community/node-geckodriver#options
+    //     geckodriverOptions: {
+    //       log: "info", // set log level of driver
+    //     },
+    //   },
+    // ],
+    // [
+    //   "safaridriver",
+    //   {
+    //     // This path is where you want the logs to be saved
+    //     outputDir: "./logs",
 
-        // Enable verbose logging
-        safaridriverOptions: {
-          log: "info", // Possible values: fatal, error, warn, info, debug
-        },
-      },
-    ],
+    //     // Enable verbose logging
+    //     safaridriverOptions: {
+    //       log: "info", // Possible values: fatal, error, warn, info, debug
+    //     },
+    //   },
+    // ],
   ],
 
   // Framework you want to run your specs with.

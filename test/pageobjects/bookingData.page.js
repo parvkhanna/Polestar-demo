@@ -77,6 +77,11 @@ class BookingdataPage extends Page {
     await this.tfFirstName.setValue(global.testData.first_name);
     await this.tfLastName.setValue(global.testData.surname);
     await this.tfbdate.setValue(global.testData.bdate);
+    await browser.keys("Space");
+    await browser.pause(4000);
+    await this.tfphoneNo.click();
+    await browser.keys(["Command", "a"]);
+    await browser.keys("Delete"); // Deletes the selected text
     await this.tfphoneNo.setValue(global.testData.phone_number);
     await this.tfAddress.setValue(global.testData.address);
     await this.tfpostalNo.setValue(global.testData.postal_code);
@@ -85,7 +90,7 @@ class BookingdataPage extends Page {
     await this.cbTelefon.click();
     await this.cbMarketing.click();
     await this.cbProfileRing.click();
-
+    await this.btnSubmit.waitForClickable();
     // Submit the form
     await this.btnSubmit.click();
 
@@ -97,17 +102,18 @@ class BookingdataPage extends Page {
       expect(confirmationText).to.equal("Bilen är reserverad"); // Chai assertion
     } catch {
       await this.txtPreExist.waitForDisplayed({ timeout: 10000 });
-      const alternativeText = await this.txtPreExist.getText(); // Assuming another element contains the different text
+      const alternativeText = await this.txtPreExist.getText(); // Assuming another element contains different text
       expect(alternativeText).to.equal("En reservation finns redan");
-      const isOkBtnDisplayed = await this.btnOk.waitForDisplayed({
+      const isOkBtnDisplayed = await this.btnOk.waitForEnabled({
         timeout: 10000,
       });
       if (isOkBtnDisplayed) {
         await this.btnOk.waitForClickable({ timeout: 10000 });
         await this.btnOk.click();
+        await browser.pause(8000); //In case of minor timing issues (like animations or popups), a short pause can sometimes help.
       }
     }
-    await this.btnOk.waitForDisplayed({ timeout: 60000 });
+    await this.btnOk.waitForClickable({ timeout: 60000 });
     await this.btnOk.click();
   }
 }
