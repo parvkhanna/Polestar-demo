@@ -71,6 +71,7 @@ exports.config = {
           "--disable-extensions", // Disables all extensions
           "--no-sandbox", // Disables sandboxing for faster performance (good for CI)
           "--disable-dev-shm-usage", // Prevents resource issues in Docker/CI
+          "--headless"
         ],
       },
     },
@@ -82,9 +83,8 @@ exports.config = {
       acceptInsecureCerts: true, // For self-signed certificates
       "moz:firefoxOptions": {
         args: [
-          // "--width=1920",
-          // "--height=1080", // Maximized window
           "--disable-infobars", // Disables pop-up blocking info bars
+          "--headless"
         ],
       },
     },
