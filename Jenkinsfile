@@ -1,5 +1,5 @@
 pipeline {
-    agent any. // This defines that jenkins can run on any available agent.
+    agent any // This defines that jenkins can run on any available agent.
 
     triggers {
         githubPush() 
